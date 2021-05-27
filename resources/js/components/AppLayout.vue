@@ -15,7 +15,7 @@
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">alex@gmail.com</button>
 
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+            <li><a class="dropdown-item" href="#" @click="logout">Cerrar sesión</a></li>
           </ul>
         </div>
       </div>
@@ -27,9 +27,20 @@
 </template>
 
 <script>
+import axios from 'axios';
+import useLogout from '../hooks/useLogout';
+
 export default {
   setup() {
-    //
+    const {loading: loggingOut, logout} = useLogout();
+
+    return {
+      loggingOut,
+      async logout() {
+        await logout();
+        window.location.reload();
+      },
+    }
   },
 }
 </script>
