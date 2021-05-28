@@ -1,4 +1,4 @@
 import axios from 'axios';
-import 'bootstrap';
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common['Accept'] = 'application/json';

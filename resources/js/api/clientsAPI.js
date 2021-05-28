@@ -11,4 +11,9 @@ export default {
   async create({data}) {
     return await axios.post(BASE_URI, data);
   },
+  async getOne({id}) {
+    const {data} = await axios.get(`${BASE_URI}/${id}`);
+
+    return data;
+  }
 }
