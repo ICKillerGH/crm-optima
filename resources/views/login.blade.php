@@ -15,8 +15,19 @@
 
         <form action="{{ route('login') }}" method="POST" class="login-form" autocomplete="off">
             @csrf
-            <input type="text" name="email" class="login-input" placeholder="Correo electrónico" required>
-            <input type="password" name="password" class="login-input" placeholder="Contraseña" required>
+            <div class="login-form-group">
+                <input type="text" name="email" class="login-input" placeholder="Correo electrónico" required value="{{ old('email') }}">
+                @error('email')
+                    <small>{{$message}}</small>
+                @enderror
+            </div>
+
+            <div class="login-form-group">
+                <input type="password" name="password" class="login-input" placeholder="Contraseña" required>
+                @error('password')
+                    <small>{{$message}}</small>
+                @enderror
+            </div>
             <label for="rememberme">
                 <input type="checkbox" id="rememberme">
                 Recordarme

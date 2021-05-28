@@ -1,19 +1,21 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CitiesController;
+use App\Http\Controllers\Api\StatesController;
+use App\Http\Controllers\Api\ClientsController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::middleware('auth:sanctum')->group(function() {
+    Route::prefix('/states')->name('states.')->group(function() {
+        Route::get('/', [StatesController::class, 'index'])->name('index');
+    });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::prefix('/cities')->name('cities.')->group(function() {
+        Route::get('/', [CitiesController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('/clients')->name('clients.')->group(function() {
+        Route::get('/', [ClientsController::class, 'index'])->name('index');
+        Route::post('/', [ClientsController::class, 'create'])->name('create');
+    });
 });

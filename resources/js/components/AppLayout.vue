@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import useLogout from '../hooks/useLogout';
 
 export default {
