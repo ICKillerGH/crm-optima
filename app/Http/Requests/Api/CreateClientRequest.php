@@ -30,7 +30,7 @@ class CreateClientRequest extends FormRequest
             'primaryPhone' => 'required|max:50',
             'secondaryPhone' => 'required|max:50',
             'category' => 'required|max:255',
-            'website' => 'required|max:255',
+            'website' => 'nullable|max:255',
             'address' => 'required|max:255',
             'contactName' => 'required|max:100',
             'type' => 'required|max:255',

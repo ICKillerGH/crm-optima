@@ -38,4 +38,9 @@ class ClientsController extends Controller
 
         return response()->json($client);
     }
+
+    public function show(Client $client)
+    {
+        return $client;
+    }
 }
