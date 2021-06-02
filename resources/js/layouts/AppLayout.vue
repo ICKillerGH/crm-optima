@@ -75,10 +75,10 @@
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      pedro@gmail.com
+                      {{user?.email ?? 'email@email.com'}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                      <a class="dropdown-item" href="#">Cerrar sesión</a>
+                      <a class="dropdown-item" href="#" @click.prevent="logout">Cerrar sesión</a>
                     </div>
                   </div>
 								</div>
@@ -95,7 +95,7 @@
 						<div class="d-flex flex-column-fluid">
 							<!--begin::Container-->
 							<div class="container">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi vel quisquam hic laudantium nesciunt, molestias molestiae ab laboriosam quas temporibus at, corporis nihil quam omnis natus exercitationem, quaerat sed! Officia!
+                <slot />
 							</div>
 							<!--end::Container-->
 						</div>
@@ -128,10 +128,27 @@
 
 <script>
 import TheSidebar from '@/components/TheSidebar';
+import axios from 'axios';
 
 export default {
   components: {
     TheSidebar,
   },
+  data: () => ({
+    user: null,
+  }),
+  mounted() {
+    this.fetchUser();
+  },
+  methods: {
+    async logout() {
+      await axios.post('/logout');
+      window.location.reload();
+    },
+    async fetchUser() {
+      const {data} = await axios.get('/api/profile');
+      this.user = data;
+    }
+  }
 }
 </script>

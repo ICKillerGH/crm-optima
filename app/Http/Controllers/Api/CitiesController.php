@@ -12,7 +12,10 @@ class CitiesController extends Controller
     {
         $perPage = $request->query('perPage', 10);
 
-        $cities = Location::city()->paginate($perPage);
+        $cities = Location::query()
+            ->city()
+            ->when($request->query('stateId'), fn($query, $id) => $query->stateId($id))
+            ->paginate($perPage);
 
         return response()->json($cities);
     }

@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('app'));
+        return redirect()->route('app');
     }
 
     public function logout(Request $request)
@@ -35,6 +35,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('login', ['any' => '']);
+        return redirect()->route('login');
     }
 }

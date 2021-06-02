@@ -1,23 +1,22 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import Dashboard from "@/pages/Dashboard.vue";
+import Clients from "@/pages/Clients.vue"
+import ClientDetails from "@/pages/ClientDetails.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
       path: '/',
-      component: () => import("@/pages/Dashboard.vue")
-      // path: "/",
-      // redirect: "/dashboard",
-      // component: () => import("@/view/layout/Layout"),
-      // children: [
-      //   {
-      //     path: "/dashboard",
-      //     name: "dashboard",
-      //     component: () => import("@/pages/Dashboard.vue")
-      //   },
-      // ],
-    }
+      redirect: '/clientes',
+    },
+    {
+      path: '/clientes',
+      component: Clients,
+    },
+    {
+      path: '/clientes/:id',
+      component: ClientDetails,
+    },
   ]
 });
 

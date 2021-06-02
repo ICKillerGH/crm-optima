@@ -20,4 +20,9 @@ class Location extends Model
     {
         return $query->whereNotNull('parent_id');
     }
+
+    public function scopeStateId($query, $stateId)
+    {
+        return $query->where('parent_id', $stateId);
+    }
 }

@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->string('email', 100);
             $table->string('name');
             $table->string('primary_phone', 50);
-            $table->string('secondary_phone', 50);
+            $table->string('secondary_phone', 50)->nullable();
             $table->string('category');
             $table->string('website');
             $table->string('address');
