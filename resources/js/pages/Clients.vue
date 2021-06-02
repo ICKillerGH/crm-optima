@@ -51,37 +51,40 @@
         </tbody>
       </table>
     </div>
-    <div class="card-footer" v-if="clients">
+    <div class="card-footer" v-if="clients && pagination.lastPage > 1">
       <!--begin::Pagination-->
       <div class="d-flex justify-content-between align-items-center flex-wrap">
           <div class="d-flex flex-wrap py-2 mr-3">
-              <a href="#" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-double-arrow-back icon-xs"></i></a>
-              <a href="#" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-arrow-back icon-xs"></i></a>
+              <a href="#" class="btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1" :class="{disabled: !pagination.canGoBack}">
+                <i class="ki ki-bold-arrow-back icon-xs"></i>
+              </a>
 
               <a
                 href="#"
-                class="btn btn-icon btn-sm border-0 btn-light mr-2 my-1"
+                class="btn btn-icon btn-sm border-0 btn-light btn-hover-primary mr-2 my-1"
+                v-for="n in pagination.numbers"
+                :key="n"
+                :class="{active: pagination.currentPageNumber == n}"
               >
-                23
+                {{n}}
               </a>
-              <a href="#" class="btn btn-icon btn-sm border-0 btn-light btn-hover-primary active mr-2 my-1">24</a>
 
-              <a href="#" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-arrow-next icon-xs"></i></a>
-              <a href="#" class="btn btn-icon btn-sm btn-light mr-2 my-1"><i class="ki ki-bold-double-arrow-next icon-xs"></i></a>
+              <a href="#" class="btn btn-icon btn-sm btn-light btn-hover-primary mr-2 my-1" :class="{disabled: !pagination.canGoForward}">
+                <i class="ki ki-bold-arrow-next icon-xs"></i>
+              </a>
           </div>
           <div class="d-flex align-items-center py-3">
-              <select class="form-control form-control-sm font-weight-bold mr-4 border-0 bg-light" style="width: 75px;">
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-              </select>
-              <span class="text-muted">Displaying 10 of 230 records</span>
+            <select class="form-control form-control-sm font-weight-bold mr-4 border-0 bg-light" style="width: 75px;" v-model="pagination.currentPageNumber">
+              <option :value="10">10</option>
+              <option :value="20">20</option>
+              <option :value="30">30</option>
+              <option :value="50">50</option>
+              <option :value="100">100</option>
+            </select>
+            <span class="text-muted">Mostrando 10 de {{pagination.totalItems}} registros</span>
           </div>
       </div>
       <!--end:: Pagination-->
-      {{pages}}
     </div>
   </div>
 
@@ -254,7 +257,29 @@ export default {
     SectionTitle
   },
   setup() {
-    const {data: clients, fetchClients} = useClients({defaultPerPage: 10});
+    const pagination = reactive({
+      numbers: [],
+      currentPageNumber: 1,
+      perPage: 10,
+      canGoBack: false,
+      canGoForward: false,
+      totalItems: 0,
+      lastPage: 1
+    });
+
+    const {data: clients, fetchClients} = useClients({defaultPerPage: pagination.perPage});
+
+    watch(clients, (clients) => {
+      if (clients) {
+        pagination.numbers = Array.from(Array(clients.last_page).keys()).map(n => n + 1);
+        pagination.currentPageNumber = clients.current_page;
+        pagination.totalItems = clients.total;
+        pagination.canGoBack = clients.current_page > 1;
+        pagination.canGoForward = clients.current_page < clients.last_page;
+        pagination.lastPage = clients.last_page;
+      }
+    });
+
     const {data: states} = useStates({defaultPerPage: 200});
     const {data: cities, fetchCities} = useCities({manual: true, defaultPerPage: 200});
 
@@ -316,10 +341,6 @@ export default {
       showClientModal();
     };
 
-    const pages = ref([]);
-
-    watch(clients, (clients) => pages.value = clients ? Array.from(Array(clients.last_page).keys).map(n => n + 1) : []);
-
     return {
       clients,
       states,
@@ -342,7 +363,7 @@ export default {
       onEditClicked,
       editMode,
       errors,
-      pages
+      pagination
     }
   }
 }

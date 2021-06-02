@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link rel="stylesheet" href="{{ mix('css/login.css') }}">
 </head>
 <body>
@@ -33,7 +33,7 @@
                 Recordarme
             </label>
 
-            <div class="text-center">
+            <div style="text-align: center">
                 <button class="login-button">Ingresar</button>
             </div>
         </form>
